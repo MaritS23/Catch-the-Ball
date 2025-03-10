@@ -23,6 +23,8 @@ FANGER_HOEHE = 20
 
 BALL_RADIUS = 7
 
+Balle_Liste = []
+
 class Fanger:
     Fanger_Farbe = ("BLACK")
     GES = 7
@@ -86,9 +88,11 @@ def main():
     fanger = Fanger(BREITE/2 - FANGER_BREITE/2, HOEHE - 100, FANGER_BREITE, FANGER_HOEHE)
     ball = BALL(42, 0, BALL_RADIUS)
 
+    Balle_Liste.append(ball)
+
 
     while run:
-        draw(WIN, fanger, ball)
+        draw(WIN, fanger, Balle_Liste[0])
         clock.tick(FPS)
 
         for event in pygame.event.get():
@@ -97,7 +101,7 @@ def main():
 
         keys = pygame.key.get_pressed()
         fanger_movement(fanger, keys)
-        ball_movement (ball, fanger)
+        ball_movement (Balle_Liste[0], fanger)
 
     pygame.quit()
     
