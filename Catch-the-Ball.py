@@ -14,6 +14,7 @@ pygame.init
 BREITE = 730
 HOEHE = 750 
 WIN = pygame.display.set_mode ((BREITE, HOEHE))
+pygame.display.set_caption ("Catch the Ball")
 
 FPS = 60
 
