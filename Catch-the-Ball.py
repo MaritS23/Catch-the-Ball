@@ -14,6 +14,7 @@ pygame.init
 BREITE = 730
 HOEHE = 750 
 WIN = pygame.display.set_mode ((BREITE, HOEHE))
+pygame.display.set_caption ("Catch the Ball")
 
 FPS = 60
 
@@ -64,6 +65,14 @@ def fanger_movement(fanger, keys):
     if keys [pygame.K_LEFT] and ( fanger.x - fanger.GES >= 0 ):
         fanger.move (rechts = False )
 
+def ball_movement(ball, fanger):
+    if(ball.y + BALL_RADIUS <= fanger.y and ball.y + BALL_RADIUS + ball.BALL_GES >= fanger.y) and (ball.x >= fanger.x and ball.x <= fanger.x + FANGER_BREITE):
+        ball.y = fanger.y - BALL_RADIUS
+    elif ball.y + BALL_RADIUS >= HOEHE:
+        ball.y = ball.y
+    else:
+        ball.move()
+
 def draw (win, fanger, ball):
     win.fill(("WHITE"))
     fanger.draw(win)
@@ -88,7 +97,7 @@ def main():
 
         keys = pygame.key.get_pressed()
         fanger_movement(fanger, keys)
-        ball.move ()
+        ball_movement (ball, fanger)
 
     pygame.quit()
     
