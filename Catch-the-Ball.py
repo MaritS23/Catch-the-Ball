@@ -11,11 +11,16 @@
 import pygame 
 pygame.init 
 
-BREITE, HOEHE = 730, 750 
+BREITE = 730
+HOEHE = 750 
 WIN = pygame.display.set_mode (BREITE, HOEHE)
 
 FPS = 60
 
+def draw (win):
+    win.fill(("WHITE"))
+
+    pygame.display.update()
 
 def main():
 
