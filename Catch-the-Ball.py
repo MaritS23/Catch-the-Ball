@@ -34,11 +34,18 @@ class Fanger:
 
     def draw (self, win):
         pygame.draw.rect (win,self.Fanger_Farbe, (self.x, self.y, self.fanger_breite, self.fanger_hoehe) )
+    
+    def move(self, rechts = True ):
+        if rechts:
+            self.x += self.GES
+        else:
+            self.x -= self.GES
+
 
 class BALL:
     BALL_FARBE = ("PINK")
     BALL_GES = 5 
-
+    
     def __init__(self, x, y, radius):
         self.x = x
         self.y = y
@@ -49,6 +56,13 @@ class BALL:
 
     def move (self):
         self.y += self.BALL_GES
+        
+
+def fanger_movement(fanger, keys):
+    if keys [pygame.K_RIGHT] and (fanger.x - FANGER_BREITE + fanger.GES <= BREITE):
+        fanger.move (rechts = True)
+    if keys [pygame.K_LEFT] and ( fanger.x - fanger.GES >= 0 ):
+        fanger.move (rechts = False )
 
 def draw (win, fanger, ball):
     win.fill(("WHITE"))
@@ -71,7 +85,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+
+        keys = pygame.key.get_pressed()
+        fanger_movement(fanger, keys)
         ball.move ()
+
     pygame.quit()
     
 main()
