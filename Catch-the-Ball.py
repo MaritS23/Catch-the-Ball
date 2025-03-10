@@ -32,7 +32,18 @@ class Fanger:
 
     def draw (self, win):
         pygame.draw.rect (win,self.Fanger_Farbe, (self.x, self.y, self.fanger_breite, self.fanger_hoehe) )
+    
+    def move(self, rechts = True ):
+        if rechts:
+            self.x += self.GES
+        else:
+            self.x -= self.GES
 
+def fanger_movement(fanger, keys):
+    if keys [pygame.K_RIGHT] and (fanger.x - FANGER_BREITE + fanger.GES <= BREITE):
+        fanger.move (rechts = True)
+    if keys [pygame.K_LEFT] and ( fanger.x - fanger.GES >= 0 ):
+        fanger.move (rechts = False )
 
 def draw (win,fanger):
     win.fill(("WHITE"))
@@ -55,6 +66,9 @@ def main():
             if event.type == pygame.QUIT:
                 run = False
 
+        keys = pygame.key.get_pressed()
+        fanger_movement(fanger, keys)
+        
     pygame.quit()
     
 main()
