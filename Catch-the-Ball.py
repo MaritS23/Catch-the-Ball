@@ -20,6 +20,8 @@ FPS = 60
 FANGER_BREITE = 100
 FANGER_HOEHE = 20
 
+BALL_RADIUS = 7
+
 class Fanger:
     Fanger_Farbe = ("BLACK")
     GES = 7
@@ -39,15 +41,33 @@ class Fanger:
         else:
             self.x -= self.GES
 
+
+class BALL:
+    BALL_FARBE = ("PINK")
+    BALL_GES = 5 
+    
+    def __init__(self, x, y, radius):
+        self.x = x
+        self.y = y
+        self.radius = radius 
+
+    def draw (self, win):
+        pygame.draw.circle(win, self.BALL_FARBE,(self.x, self.y), self.radius)
+
+    def move (self):
+        self.y += self.BALL_GES
+        
+
 def fanger_movement(fanger, keys):
     if keys [pygame.K_RIGHT] and (fanger.x - FANGER_BREITE + fanger.GES <= BREITE):
         fanger.move (rechts = True)
     if keys [pygame.K_LEFT] and ( fanger.x - fanger.GES >= 0 ):
         fanger.move (rechts = False )
 
-def draw (win,fanger):
+def draw (win, fanger, ball):
     win.fill(("WHITE"))
     fanger.draw(win)
+    ball.draw (win)
     pygame.display.update()
 
 def main():
@@ -55,11 +75,11 @@ def main():
     run=True 
     clock = pygame.time.Clock()
     fanger = Fanger(BREITE/2 - FANGER_BREITE/2, HOEHE - 100, FANGER_BREITE, FANGER_HOEHE)
-
+    ball = BALL(42, 0, BALL_RADIUS)
 
 
     while run:
-        draw(WIN, fanger)
+        draw(WIN, fanger, ball)
         clock.tick(FPS)
 
         for event in pygame.event.get():
@@ -68,7 +88,8 @@ def main():
 
         keys = pygame.key.get_pressed()
         fanger_movement(fanger, keys)
-        
+        ball.move ()
+
     pygame.quit()
     
 main()
