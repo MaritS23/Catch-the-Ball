@@ -13,7 +13,7 @@ pygame.init
 
 BREITE = 730
 HOEHE = 750 
-WIN = pygame.display.set_mode (BREITE, HOEHE)
+WIN = pygame.display.set_mode ((BREITE, HOEHE))
 
 FPS = 60
 
@@ -26,7 +26,8 @@ def main():
 
     run=True 
     clock = pygame.time.Clock()
-
+    draw(WIN)
+    
     while run:
         clock.tick(FPS)
 
