@@ -10,7 +10,7 @@
 
 import random
 import pygame 
-pygame.init 
+pygame.init()
 
 BREITE = 730
 HOEHE = 750 
@@ -30,9 +30,18 @@ MIN_TIME = 500
 MAX_TIME = 1000
 FIRST_BALL_TIME = 1000
 
+MIN_BALL_X = BALL_RADIUS
+MAX_BALL_X = BREITE - BALL_RADIUS
+
+
+COUNTER = pygame.font.SysFont('comicsans', 20)
+COUNTERPOSITION_X, COUNTERPOSITION_Y = 10, 10
+counter = 0
+
 BALL_HIT_FANGER = pygame.USEREVENT +1
 BALL_HIT_GROUND = pygame.USEREVENT +2
 TIMER = pygame.USEREVENT +3
+
 
 Balle_Liste = []
 
@@ -72,7 +81,7 @@ class Ball:
 
 
 def fanger_movement(fanger, keys):
-    if keys [pygame.K_RIGHT] and (fanger.x - FANGER_BREITE + fanger.GES <= BREITE):
+    if keys [pygame.K_RIGHT] and (fanger.x + FANGER_BREITE + fanger.GES <= BREITE):
         fanger.move (rechts = True)
     if keys [pygame.K_LEFT] and ( fanger.x - fanger.GES >= 0 ):
         fanger.move (rechts = False )
@@ -89,8 +98,8 @@ def balle_movement(Balle_Liste, fanger):
             Balle_Liste.remove(ball)
 
 def spawn_ball():
-    BALL_X = 42
-    ball = pygame.Rect(BALL_X, 0, BALL_RADIUS, BALL_RADIUS)
+    ball_x = random.randint(MIN_BALL_X, MAX_BALL_X)
+    ball = pygame.Rect(ball_x, 0, BALL_RADIUS, BALL_RADIUS)
     ball_farbe_rot = random.randint(0, 255)
     ball_farbe_grun = random.randint(0, 255)
     ball_farbe_blau = random.randint(0, 255)
@@ -98,11 +107,14 @@ def spawn_ball():
         BALL_FARBE = ('PINK')
     else:
         BALL_FARBE = ((ball_farbe_rot), (ball_farbe_grun), (ball_farbe_blau))
-    ball = Ball(BALL_X, 0, BALL_RADIUS, BALL_FARBE)
+    ball = Ball(ball_x, 0, BALL_RADIUS, BALL_FARBE)
     Balle_Liste.append(ball)
 
-def draw (win, fanger, Balle_Liste):
+
+def draw (win, fanger, Balle_Liste, counter):
     win.fill(("WHITE"))
+    counter_text = COUNTER.render('Counter: ' + str(counter), 1, 'GRAY')
+    win.blit(counter_text, (COUNTERPOSITION_X, COUNTERPOSITION_Y))
     fanger.draw(win)
     for ball in Balle_Liste:
         ball.draw(win)
@@ -116,6 +128,7 @@ def main():
     fanger = Fanger(BREITE/2 - FANGER_BREITE/2, HOEHE - 100, FANGER_BREITE, FANGER_HOEHE)
     delay_time = FIRST_BALL_TIME
     pygame.time.set_timer(TIMER, delay_time)
+    counter = 0
 
     while run:
         clock.tick(FPS)
@@ -125,6 +138,11 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            
+            if event.type == pygame.USEREVENT +1:
+                counter += 1
+            if event.type == pygame.USEREVENT +2:
+                counter -= 1
 
             if (event.type == TIMER) and (len(Balle_Liste) < MAX_BALLANZAHL):
                 spawn_ball()
@@ -134,7 +152,7 @@ def main():
         fanger_movement(fanger, keys)
         balle_movement (Balle_Liste, fanger)
 
-        draw(WIN, fanger, Balle_Liste)
+        draw(WIN, fanger, Balle_Liste, counter)
 
     pygame.quit()
     
