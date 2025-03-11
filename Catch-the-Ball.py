@@ -8,6 +8,7 @@
 # date: 10.03.2025
 # brief:
 
+import random
 import pygame 
 pygame.init()
 
@@ -22,6 +23,9 @@ FANGER_BREITE = 100
 FANGER_HOEHE = 20
 
 BALL_RADIUS = 7
+MIN_BALL_X = BALL_RADIUS
+MAX_BALL_X = BREITE - BALL_RADIUS
+ball_x = random.randint(MIN_BALL_X, MAX_BALL_X)
 
 COUNTER = pygame.font.SysFont('comicsans', 20)
 COUNTERPOSITION_X, COUNTERPOSITION_Y = 10, 10
@@ -97,8 +101,7 @@ def main():
     run=True 
     clock = pygame.time.Clock()
     fanger = Fanger(BREITE/2 - FANGER_BREITE/2, HOEHE - 100, FANGER_BREITE, FANGER_HOEHE)
-    ball = BALL(42, 0, BALL_RADIUS)
-    counter = 0
+    ball = BALL(ball_x, 0, BALL_RADIUS)
 
     Balle_Liste.append(ball)
 
