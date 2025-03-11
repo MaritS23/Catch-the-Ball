@@ -90,9 +90,8 @@ def spawn_ball():
 def draw (win, fanger, Balle_Liste, Balle_Farben):
     win.fill(("WHITE"))
     fanger.draw(win)
-    for BALL_FARBE in Balle_Farben:
-        for ball in Balle_Liste:
-            pygame.draw.rect(win, BALL_FARBE, ball)
+    for i, ball in enumerate(Balle_Liste):
+        pygame.draw.rect(win, Balle_Farben[i], ball)
 
     pygame.display.update()
 
