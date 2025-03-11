@@ -10,7 +10,7 @@
 
 import random
 import pygame 
-pygame.init 
+pygame.init()
 
 BREITE = 730
 HOEHE = 750 
@@ -26,6 +26,13 @@ BALL_RADIUS = 7
 MIN_BALL_X = BALL_RADIUS
 MAX_BALL_X = BREITE - BALL_RADIUS
 ball_x = random.randint(MIN_BALL_X, MAX_BALL_X)
+
+COUNTER = pygame.font.SysFont('comicsans', 20)
+COUNTERPOSITION_X, COUNTERPOSITION_Y = 10, 10
+counter = 0
+
+BALL_HIT_FANGER = pygame.USEREVENT +1
+BALL_HIT_GROUND = pygame.USEREVENT +2
 
 Balle_Liste = []
 
@@ -74,13 +81,17 @@ def fanger_movement(fanger, keys):
 def ball_movement(ball, fanger):
     if(ball.y + BALL_RADIUS <= fanger.y and ball.y + BALL_RADIUS + ball.BALL_GES >= fanger.y) and (ball.x >= fanger.x and ball.x <= fanger.x + FANGER_BREITE):
         ball.y = fanger.y - BALL_RADIUS
+        pygame.event.post(pygame.event.Event(BALL_HIT_FANGER))
     elif ball.y + BALL_RADIUS >= HOEHE:
         ball.y = ball.y
+        pygame.event.post(pygame.event.Event(BALL_HIT_GROUND))
     else:
         ball.move()
 
-def draw (win, fanger, ball):
+def draw (win, fanger, ball, counter):
     win.fill(("WHITE"))
+    counter_text = COUNTER.render('Counter: ' + str(counter), 1, 'GRAY')
+    win.blit(counter_text, (COUNTERPOSITION_X, COUNTERPOSITION_Y))
     fanger.draw(win)
     ball.draw (win)
     pygame.display.update()
@@ -96,16 +107,22 @@ def main():
 
 
     while run:
-        draw(WIN, fanger, Balle_Liste[0])
         clock.tick(FPS)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
+            
+            if event.type == pygame.USEREVENT +1:
+                counter += 1
+            if event.type == pygame.USEREVENT +2:
+                counter -= 1
 
         keys = pygame.key.get_pressed()
         fanger_movement(fanger, keys)
         ball_movement (Balle_Liste[0], fanger)
+
+        draw(WIN, fanger, Balle_Liste[0], counter)
 
     pygame.quit()
     
