@@ -102,6 +102,7 @@ def main():
     clock = pygame.time.Clock()
     fanger = Fanger(BREITE/2 - FANGER_BREITE/2, HOEHE - 100, FANGER_BREITE, FANGER_HOEHE)
     ball = BALL(ball_x, 0, BALL_RADIUS)
+    counter = 0
 
     Balle_Liste.append(ball)
 
