@@ -81,7 +81,7 @@ class Ball:
 
 
 def fanger_movement(fanger, keys):
-    if keys [pygame.K_RIGHT] and (fanger.x - FANGER_BREITE + fanger.GES <= BREITE):
+    if keys [pygame.K_RIGHT] and (fanger.x + FANGER_BREITE + fanger.GES <= BREITE):
         fanger.move (rechts = True)
     if keys [pygame.K_LEFT] and ( fanger.x - fanger.GES >= 0 ):
         fanger.move (rechts = False )
