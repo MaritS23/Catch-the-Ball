@@ -35,6 +35,8 @@ MAX_BALL_X = BREITE - BALL_RADIUS
 
 
 COUNTER = pygame.font.SysFont('comicsans', 20)
+WINNING_FONT = pygame.font.SysFont('comicsans', 100)
+
 COUNTERPOSITION_X, COUNTERPOSITION_Y = 10, 10
 counter = 0
 
@@ -42,6 +44,9 @@ BALL_HIT_FANGER = pygame.USEREVENT +1
 BALL_HIT_GROUND = pygame.USEREVENT +2
 TIMER = pygame.USEREVENT +3
 
+WINNING_COUNTER = 25
+WINNING_TEXT = 'You won!'
+AFTER_WINNING_DELAY = 3000
 
 Balle_Liste = []
 
@@ -120,6 +125,11 @@ def draw (win, fanger, Balle_Liste, counter):
         ball.draw(win)
     pygame.display.update()
 
+def winning(win, text):
+    winning_text = WINNING_FONT.render(text, 1, 'BLACK')
+    win.blit(winning_text, (BREITE//2 - winning_text.get_width()/2, HOEHE//2 - winning_text.get_height()/2))
+    pygame.display.update()
+    pygame.time.delay(AFTER_WINNING_DELAY)
 
 def main():
 
@@ -154,6 +164,11 @@ def main():
 
         draw(WIN, fanger, Balle_Liste, counter)
 
+        if counter >= WINNING_COUNTER:
+            winning(WIN, WINNING_TEXT)
+            break
+
     pygame.quit()
-    
-main()
+
+if __name__ == '__main__':    
+    main()
